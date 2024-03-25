@@ -46,10 +46,14 @@ def MaxVal(u, a, b):
     for node in u.children:
         val = max(val, MinVal(node, a, b))
         if val >= b:
+            print(val, a, b)
+            print("cut")
+            node.v = val
             return val
         a = max(a, val)
+        print(val, a, b)
+    u.v = val
     return val
-
 
 def MinVal(u, a, b):
     if not u.children:
@@ -58,23 +62,40 @@ def MinVal(u, a, b):
     for node in u.children:
         val = min(val, MaxVal(node, a, b))
         if val <= a:
+            print(val, a, b)
+            print("cut")
+            node.v = val
             return val
         b = min(b, val)
+        print(val, a, b)
+    u.v = val
     return val
 
 
 def Result(root):
     a = -math.inf
     b = math.inf
-    max_value = -math.inf
-    for node in root.children:
-        value = MinVal(node, a, b)
-        if value > max_value:
-            max_value = value
-    return max_value
+    val = -math.inf
+    val = MinVal(root, a, b)
+    # for node in root.children:
+    #     value = MinVal(node, a, b)
+    #     if value > val:
+    #         val = value
+    #     node.v = val
+    #     print(val, a, b)
+    return val
 
+def solve(node, file, level=0):
+    file.write("  " * level + f"{node.v}" + "\n")
+    for child in node.children:
+        solve(child, file, level + 1)
+
+def print_tree(root, filename):
+    with open(filename, 'w') as file:
+        solve(root, file)
 
 if __name__ == '__main__':
     M, root = readData()
-    print_tree(root)
+    # print_tree(root)
     print(Result(root))
+    print_tree(root, 'output.txt')

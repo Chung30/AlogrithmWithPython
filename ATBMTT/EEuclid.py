@@ -7,7 +7,7 @@ class extendEuclid:
             return 1, 0, b
         else:
             x, y, gcd = self.EEuclid(b % a, a)
-            print(x,y,gcd)
+            # print(x,y,gcd)
             return y, x - (b // a) * y, gcd
     def modul(self):
         x, y, gcd = self.EEuclid(self.a, self.n)
